@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Feb 22 11:32:16 2020
+Example Astar algorithm, works on a 2D list
+@author: andrewbrose
+"""
+
+class Node ():
+    def __init__(self, parent = None, position = None):
+        self.parent = parent
+        self.position = position
+        
+        self.g = 0 #distance from the start node
+        self.h = 0 #estimated distance left to end node
+        self.f = 0 #sum of g and h, total distance
+        
+    def __eq__ (self, other):
+        return self.position == other.position
+    
+    
+#returns all the points on best path to end goal as tuples
+def astar(maze, start, end):
+    start_node = Node(None, start)
+    start_node.g = start_node.h = start_node.f = 0
+    
+    
+    open_list = [] #all points
+    closed_list = [] #only points that could be on the best path?
+    
+    #add the start node
+    open_list.append(start_node)
+    
+    #loop until target is found
+    while len_open_list > 0:
+        #find current node
+        current_node = open_list[0]
+        current_index=0
+        for index, item in enumerate(open_list):
+            #if this item has a smaller distance make that current
+            if item.f < current_node.f:
+                current_node = item
+                current+index = index
+        
+        #pop current off open list and put it in the closed list (path)
+        open_list.pop(current_index)
+        closed_list.append(current_node)
+        
+        #check if end has been reached
+        if current_node == end_node:
+            path = []
+            current = current_node
+            #trace back via parent to the start, following the shortest path
+            while current is not None:
+                path.append(current.position)
+                current = current.parent
+                
+            return path[::-1] #return reversed path
+        
+        
+        #if goal not found, generate potential children
+        children = []
+        for new_position in [(0, -1), (0,1), (-1, 0), (1, 0), (-1, -1), 
+                             (-1, 1), (1, -1), (1, 1)]: #adjacent squares
+        
+                #Get node position
+                node_position = (current_node.position[0] + new_position[0], 
+                                 current_node.position[1] + new_position[1])
+                
+                #Make sure within range (check if this needs an else fail?)
+                if node_position[0] > (len(maze) - 1) or node_position[0] < 0
+                or node_position[1] > (len(maze[len(maze)-1]) -1)
+                or node_position[1] < 0:
+                    continue
+                
+                
+        
+        
+        
+        
